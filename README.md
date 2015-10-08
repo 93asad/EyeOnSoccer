@@ -1,0 +1,1 @@
+This repository contains the android project called 'EyeOnSoccer'. This is the MAD assignment3 that administraters have been given access to in order to mark it.
