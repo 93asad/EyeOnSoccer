@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Friends Preferences"
+        android:key="preferences">
+
+    </PreferenceCategory>
+    <ListPreference
+        android:title="Date Format"
+        android:key="date_format"
+        android:summary="Format"
+        android:entries="@array/date_formats"
+        android:entryValues="@array/date_values"
+        android:defaultValue="false">
+    </ListPreference>
+
+    <CheckBoxPreference
+        android:key="checkbox"
+        android:title="Can delete friends"
+        android:defaultValue="false"
+        android:id="@+id/checkbox">
+
+    </CheckBoxPreference>
+
+</PreferenceScreen>

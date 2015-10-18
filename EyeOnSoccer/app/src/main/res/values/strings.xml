@@ -3,4 +3,17 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_landing_page">LandingPage</string>
+    <string name="title_activity_preferences">Preferences</string>
+
+    <string-array name="date_formats">
+        <item>dd-MM-yyyy</item>
+        <item>MM-dd-yyyy</item>
+    </string-array>
+    <string-array name="date_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>
