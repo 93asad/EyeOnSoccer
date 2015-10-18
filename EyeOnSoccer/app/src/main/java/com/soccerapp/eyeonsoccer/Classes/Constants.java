@@ -12,5 +12,8 @@ public class Constants {
     public static final int SCHEDULE_FRAGMENT_INDEX = 1;
     public static final int NEWS_FRAGMENT_INDEX = 2;
     public static final int WATCH_FRAGMENT_INDEX = 3;
+    public static final String DRAWER_PREF_FILE_NAME = "drawerPrefs";
+    public static final String KEY_USER_AWARE_OF_DRAWER = "userAwareOfDrawer";
+    public static final String[] TAB_NAMES = {"Table", "Schedule", "News", "Watch"};
 
 }

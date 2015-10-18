@@ -42,14 +42,6 @@ public class FragmentsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0)
-            return "Table";
-        if (position == 1)
-            return "Table";
-        if (position == 2)
-            return "Hoe";
-        if (position == 3)
-            return "Cat";
-        return null;
+        return Constants.TAB_NAMES[position];
     }
 }
