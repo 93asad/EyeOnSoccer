@@ -33,7 +33,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void setupTabs() {
-        
+
     }
 
     @Override
