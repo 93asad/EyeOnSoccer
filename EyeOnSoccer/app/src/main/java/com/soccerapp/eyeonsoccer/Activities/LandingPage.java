@@ -46,6 +46,7 @@ public class LandingPage extends AppCompatActivity {
         mTabs = (SlidingTabLayout) findViewById(R.id.tabs);
         mTabs.setViewPager(mViewPager);
         mTabs.setDistributeEvenly(true);
+
         //setup actionbar tabs
         //setupTabs();
     }

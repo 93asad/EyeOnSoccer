@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,7 +50,7 @@ public class NavigationDrawerFragment extends Fragment {
         mUserAwareOfDrawer = Boolean.valueOf(readFromPreferences(getActivity(),
                 Constants.KEY_USER_AWARE_OF_DRAWER, "false"));
 
-            mStartingFirstTime = savedInstanceState != null;
+        mStartingFirstTime = savedInstanceState != null;
 
     }
 
@@ -58,10 +59,9 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View drawer = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        mRecyclerView = (RecyclerView)drawer.findViewById(R.id.drawer_list);
+        mRecyclerView = (RecyclerView) drawer.findViewById(R.id.drawer_list);
 
         mLeagueAdapter = new LeagueAdapter(getActivity(), Constants.leagues());
-        for (League league : Constants.leagues())
         mRecyclerView.setAdapter(mLeagueAdapter);
 
         //Setup recycler view click detection mechanism
@@ -77,7 +77,8 @@ public class NavigationDrawerFragment extends Fragment {
         //Detect single tap on screen
         final GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
 
-            @Override public boolean onSingleTapUp(MotionEvent e) {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
                 return true;
             }
 
@@ -94,11 +95,11 @@ public class NavigationDrawerFragment extends Fragment {
 
             @Override
             public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-                View league = recyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY());
+                View league = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
 
-                if(league!=null && gestureDetector.onTouchEvent(motionEvent)){
+                if (league != null && gestureDetector.onTouchEvent(motionEvent)) {
                     String message = Constants.LEAGUE_SELECTED_MESSAGE;
-                    mLeagueName = ((TextView)league.
+                    mLeagueName = ((TextView) league.
                             findViewById(R.id.league_name)).getText().toString();
                     message = String.format(message, mLeagueName);
                     Constants.showToast(getActivity(), message);
@@ -144,7 +145,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void setupDrawerToggle() {
         mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close){
+                R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -159,10 +160,18 @@ public class NavigationDrawerFragment extends Fragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 if (mLeagueName == null) return;
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(mLeagueName);
+
+                ActionBar actionBar = ((AppCompatActivity) getActivity())
+                        .getSupportActionBar();
+
+                String currentActionBarTitle = actionBar.getTitle().toString();
+
+                if (currentActionBarTitle.equals(mLeagueName)) return;
+                else actionBar.setTitle(mLeagueName);
             }
         };
     }
+
 
     public static void saveToPreferences(Context context, String preferenceKey, String preferenceValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences
