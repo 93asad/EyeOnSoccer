@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,6 +35,9 @@ public class LandingPage extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
+    // To manage broadcast messages
+    private LocalBroadcastManager mLocalBroadcastManager;
+
     // Fields to check whether app is being launched for first time
     private boolean mUserAwareOfDrawer;
     private boolean mStartingFirstTime;
@@ -42,6 +46,12 @@ public class LandingPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_page);
+
+        //CHANGE IT
+        getSupportActionBar().setTitle("Premier League");
+
+        // Set broadcast manager
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -154,7 +164,14 @@ public class LandingPage extends AppCompatActivity {
                 String currentActionBarTitle = getSupportActionBar().getTitle().toString();
 
                 if (currentActionBarTitle.equals(Global.selectedLeagueName)) return;
-                else getSupportActionBar().setTitle(Global.selectedLeagueName);
+                else
+                {
+                    getSupportActionBar().setTitle(Global.selectedLeagueName);
+
+                    // Send broadcast to update data in fragments
+                    mLocalBroadcastManager.sendBroadcast
+                            (new Intent(Constants.LEAGUE_CHANGED_FILTER));
+                }
             }
         };
     }

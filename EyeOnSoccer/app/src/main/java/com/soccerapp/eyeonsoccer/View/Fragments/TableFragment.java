@@ -1,9 +1,13 @@
 package com.soccerapp.eyeonsoccer.View.Fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,20 +38,35 @@ import java.util.List;
 public class TableFragment extends Fragment {
 
     private RecyclerView mClubs;
+    private BroadcastReceiver mReceiver;
+    private LocalBroadcastManager mLocalBroadcastManager;
+    private ArrayList<Team> mTeams;
+    private TeamAdapter mTeamAdapter;
+    private View mTableView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setupBroadcastReceiver();
 
         if (savedInstanceState != null) {
             //set clubs array
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void setupBroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mTeams.clear();
+                fetchData();
+                mTeamAdapter.notifyDataSetChanged();
+            }
+        };
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance
+                (getActivity().getApplicationContext());
+        mLocalBroadcastManager.registerReceiver(mReceiver, Constants.INTENT_FILTER);
     }
 
     @Override
@@ -57,22 +76,39 @@ public class TableFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.table_fragment, container, false);
+        mTableView = inflater.inflate(R.layout.table_fragment, container, false);
 
-        List<Team> teams = new ArrayList<Team>();
+        // List of teams to be displayed
+        mTeams = new ArrayList<Team>();
+
+        mTeamAdapter = new TeamAdapter(getActivity(), mTeams);
 
         //Fetch data for teams
-        new TableDataAsync(view).execute("premier league", teams);
+        fetchData();
 
         //Setup recycler view for teams that will be displayed
-        mClubs = (RecyclerView) (view.findViewById(R.id.clubs_list));
-        mClubs.setAdapter(new TeamAdapter(getActivity(), teams));
+        mClubs = (RecyclerView) (mTableView.findViewById(R.id.clubs_list));
+        mClubs.setAdapter(mTeamAdapter);
         mClubs.setLayoutManager(new LinearLayoutManager(getActivity()));
         mClubs.setHasFixedSize(true);
 
         mClubs.setVisibility(RecyclerView.GONE);
 
-        return view;
+        return mTableView;
+    }
+
+    private void fetchData() {
+        String leagueName = ((AppCompatActivity)getActivity())
+                .getSupportActionBar().getTitle().toString();
+
+        new TableDataAsync(mTableView).execute(leagueName, mTeams);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 
     private class TableDataAsync extends AsyncTask<Object, Void, Void> {

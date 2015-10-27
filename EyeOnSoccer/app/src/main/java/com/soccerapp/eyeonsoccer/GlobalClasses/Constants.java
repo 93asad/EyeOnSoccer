@@ -1,6 +1,7 @@
 package com.soccerapp.eyeonsoccer.GlobalClasses;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -17,6 +18,10 @@ import java.util.List;
  * Created by Asad on 17/10/2015.
  */
 public class Constants {
+
+    // Broadcasts
+    public static final String LEAGUE_CHANGED_FILTER = "leagueChanged";
+    public static final IntentFilter INTENT_FILTER = new IntentFilter(LEAGUE_CHANGED_FILTER);
 
     // Preferences
     public static final String PREF_DATE_FORMAT = "dateFormat";
