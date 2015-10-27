@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEE"
-    tools:context="com.soccerapp.eyeonsoccer.Fragments.NavigationDrawerFragment">
+    tools:context="com.soccerapp.eyeonsoccer.View.Fragments.NavigationDrawerFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_list"

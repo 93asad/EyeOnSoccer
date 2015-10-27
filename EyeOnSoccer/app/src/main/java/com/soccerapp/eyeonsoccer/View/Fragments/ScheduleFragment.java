@@ -1,4 +1,4 @@
-package com.soccerapp.eyeonsoccer.Fragments;
+package com.soccerapp.eyeonsoccer.View.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

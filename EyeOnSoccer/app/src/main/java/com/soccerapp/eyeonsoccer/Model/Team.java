@@ -1,4 +1,4 @@
-package com.soccerapp.eyeonsoccer.Classes.Model;
+package com.soccerapp.eyeonsoccer.Model;
 
 /**
  * Created by Asad on 26/10/2015.

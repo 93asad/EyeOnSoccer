@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Activities.LandingPage"
+            android:name=".View.Activities.LandingPage"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.Preferences"
+            android:name=".View.Activities.Preferences"
             android:label="@string/title_activity_preferences" >
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.soccerapp.eyeonsoccer.Classes;
+package com.soccerapp.eyeonsoccer.GlobalClasses;
 
 /*
  * Copyright 2014 Google Inc. All rights reserved.

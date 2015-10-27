@@ -1,7 +1,6 @@
-package com.soccerapp.eyeonsoccer.Fragments;
+package com.soccerapp.eyeonsoccer.View.Fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,13 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.soccerapp.eyeonsoccer.Classes.Constants;
-import com.soccerapp.eyeonsoccer.Classes.Model.Team;
+import com.soccerapp.eyeonsoccer.GlobalClasses.Constants;
+import com.soccerapp.eyeonsoccer.Model.Team;
 import com.soccerapp.eyeonsoccer.R;
 
 import org.jsoup.Jsoup;
@@ -41,10 +39,14 @@ public class TableFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null)
-        {
-          //set clubs array
+        if (savedInstanceState != null) {
+            //set clubs array
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
     }
 
@@ -73,8 +75,7 @@ public class TableFragment extends Fragment {
         return view;
     }
 
-    private class TableDataAsync extends AsyncTask<Object, Void, Void>
-    {
+    private class TableDataAsync extends AsyncTask<Object, Void, Void> {
 
         private final String SOURCE_ATTRIBUTE = "src";
         private ProgressBar mProgressBar;
@@ -88,7 +89,7 @@ public class TableFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressBar = (ProgressBar)(mView.findViewById(R.id.progress_bar_table));
+            mProgressBar = (ProgressBar) (mView.findViewById(R.id.progress_bar_table));
             mProgressBar.setIndeterminate(true);
             mProgressBar.setVisibility(ProgressBar.VISIBLE);
         }
@@ -96,22 +97,19 @@ public class TableFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Object... params) {
-            String leagueName = (String)params[0];
-            List<Team> teamObjList = (List<Team>)params[1];
+            String leagueName = (String) params[0];
+            List<Team> teamObjList = (List<Team>) params[1];
 
-            try
-            {
+            try {
                 Document doc = Jsoup.connect(String.format(Constants.TABLE_WEBLINK, leagueName))
                         .userAgent(Constants.USER_AGENT).get();
-                Log.d("clear",doc.html());
+                Log.d("clear", doc.html());
                 Elements teams = doc.getElementsByClass(Constants.TEAMS_CLASS);
                 //Element image = doc.select("img[class=lr-logo-img lr-standings-logo-img").first();
                 getTeamsData(teamObjList, teams);
 
-                Log.d("clear",doc.html());
-            }
-            catch (IOException e)
-            {
+                Log.d("clear", doc.html());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -122,8 +120,7 @@ public class TableFragment extends Fragment {
 
             int numberOfTeams = teams.size();
 
-            for(int index = 0; index < numberOfTeams; index++)
-            {
+            for (int index = 0; index < numberOfTeams; index++) {
                 //Object to store team data
                 Team teamObj = new Team();
 
@@ -155,8 +152,8 @@ public class TableFragment extends Fragment {
             mClubs.setVisibility(ListView.VISIBLE);
         }
     }
-    private class TeamAdapter extends RecyclerView.Adapter<TeamHolder>
-    {
+
+    private class TeamAdapter extends RecyclerView.Adapter<TeamHolder> {
         private List<Team> mTeams;
         private Context mContext;
         private LayoutInflater mLayoutInflater;
@@ -179,13 +176,13 @@ public class TableFragment extends Fragment {
         @Override
         public void onBindViewHolder(TeamHolder holder, int position) {
             holder.getName().setText(mTeams.get(position).getName());
-            holder.getRank().setText(mTeams.get(position).getRank()+"");
-            holder.getMatchesPlayed().setText(mTeams.get(position).getMatchesPlayed()+"");
-            holder.getWins().setText(mTeams.get(position).getWins()+"");
-            holder.getDraws().setText(mTeams.get(position).getDraws()+"");
-            holder.getLoss().setText(mTeams.get(position).getLoss()+"");
-            holder.getGoalDiff().setText(mTeams.get(position).getGoalDiff()+"");
-            holder.getPoints().setText(mTeams.get(position).getPoints()+"");
+            holder.getRank().setText(mTeams.get(position).getRank() + "");
+            holder.getMatchesPlayed().setText(mTeams.get(position).getMatchesPlayed() + "");
+            holder.getWins().setText(mTeams.get(position).getWins() + "");
+            holder.getDraws().setText(mTeams.get(position).getDraws() + "");
+            holder.getLoss().setText(mTeams.get(position).getLoss() + "");
+            holder.getGoalDiff().setText(mTeams.get(position).getGoalDiff() + "");
+            holder.getPoints().setText(mTeams.get(position).getPoints() + "");
         }
 
         @Override
@@ -194,7 +191,7 @@ public class TableFragment extends Fragment {
         }
     }
 
-    private class TeamHolder extends RecyclerView.ViewHolder{
+    private class TeamHolder extends RecyclerView.ViewHolder {
 
         private TextView mName;
         private TextView mMatchesPlayed;
@@ -208,14 +205,14 @@ public class TableFragment extends Fragment {
         public TeamHolder(View itemView) {
             super(itemView);
 
-            mName = (TextView)itemView.findViewById(R.id.table_team_name);
-            mMatchesPlayed = (TextView)itemView.findViewById(R.id.table_matches_played);
-            mWins = (TextView)itemView.findViewById(R.id.table_wins);
-            mDraws = (TextView)itemView.findViewById(R.id.table_draw);
-            mLoss = (TextView)itemView.findViewById(R.id.table_loss);
-            mGoalDiff = (TextView)itemView.findViewById(R.id.table_goal_diff);
-            mPoints = (TextView)itemView.findViewById(R.id.table_points);
-            mRank = (TextView)itemView.findViewById(R.id.table_rank);
+            mName = (TextView) itemView.findViewById(R.id.table_team_name);
+            mMatchesPlayed = (TextView) itemView.findViewById(R.id.table_matches_played);
+            mWins = (TextView) itemView.findViewById(R.id.table_wins);
+            mDraws = (TextView) itemView.findViewById(R.id.table_draw);
+            mLoss = (TextView) itemView.findViewById(R.id.table_loss);
+            mGoalDiff = (TextView) itemView.findViewById(R.id.table_goal_diff);
+            mPoints = (TextView) itemView.findViewById(R.id.table_points);
+            mRank = (TextView) itemView.findViewById(R.id.table_rank);
         }
 
         public TextView getName() {

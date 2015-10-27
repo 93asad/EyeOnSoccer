@@ -1,4 +1,4 @@
-package com.soccerapp.eyeonsoccer.Activities;
+package com.soccerapp.eyeonsoccer.View.Activities;
 
 import android.content.SharedPreferences;
 import android.preference.CheckBoxPreference;
@@ -8,7 +8,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 
-import com.soccerapp.eyeonsoccer.Classes.Constants;
+import com.soccerapp.eyeonsoccer.GlobalClasses.Constants;
 import com.soccerapp.eyeonsoccer.R;
 
 public class Preferences extends PreferenceActivity
