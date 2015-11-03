@@ -10,24 +10,19 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.soccerapp.eyeonsoccer.GlobalClasses.Constants;
+import com.soccerapp.eyeonsoccer.GlobalClasses.Global;
 import com.soccerapp.eyeonsoccer.Model.Team;
 import com.soccerapp.eyeonsoccer.R;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,27 +35,24 @@ public class TableFragment extends Fragment {
     private RecyclerView mClubs;
     private BroadcastReceiver mReceiver;
     private LocalBroadcastManager mLocalBroadcastManager;
-    private ArrayList<Team> mTeams;
+    //private ArrayList<Team> mTeams;
     private TeamAdapter mTeamAdapter;
     private View mTableView;
+
+    private final String KEY_TEAMS = "teams";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setupBroadcastReceiver();
-
-        if (savedInstanceState != null) {
-            //set clubs array
-        }
     }
 
     private void setupBroadcastReceiver() {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                mTeams.clear();
-                fetchData();
+                new TableDataAsync(mTableView).execute();
                 mTeamAdapter.notifyDataSetChanged();
             }
         };
@@ -69,39 +61,29 @@ public class TableFragment extends Fragment {
         mLocalBroadcastManager.registerReceiver(mReceiver, Constants.INTENT_FILTER);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    private String getActionBarTitle(){
+        return ((AppCompatActivity)getActivity()).getSupportActionBar().getTitle().toString();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mTableView = inflater.inflate(R.layout.table_fragment, container, false);
+        new TableDataAsync(mTableView).execute();
+        mTeamAdapter = new TeamAdapter(getActivity(), Global.teamList);
 
-        // List of teams to be displayed
-        mTeams = new ArrayList<Team>();
-
-        mTeamAdapter = new TeamAdapter(getActivity(), mTeams);
-
-        //Fetch data for teams
-        fetchData();
-
-        //Setup recycler view for teams that will be displayed
         mClubs = (RecyclerView) (mTableView.findViewById(R.id.clubs_list));
         mClubs.setAdapter(mTeamAdapter);
         mClubs.setLayoutManager(new LinearLayoutManager(getActivity()));
         mClubs.setHasFixedSize(true);
 
-        mClubs.setVisibility(RecyclerView.GONE);
-
         return mTableView;
     }
 
     private void fetchData() {
-        String leagueName = ((AppCompatActivity)getActivity())
+        String leagueName = ((AppCompatActivity) getActivity())
                 .getSupportActionBar().getTitle().toString();
 
-        new TableDataAsync(mTableView).execute(leagueName, mTeams);
+
     }
 
     @Override
@@ -111,12 +93,17 @@ public class TableFragment extends Fragment {
         mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 
+    /********************************************************************************
+     * AsyncTask
+     ********************************************************************************/
+
     private class TableDataAsync extends AsyncTask<Object, Void, Void> {
 
         private final String SOURCE_ATTRIBUTE = "src";
         private ProgressBar mProgressBar;
 
         private View mView;
+        private View mHeading;
 
         public TableDataAsync(View view) {
             this.mView = view;
@@ -127,67 +114,32 @@ public class TableFragment extends Fragment {
             super.onPreExecute();
             mProgressBar = (ProgressBar) (mView.findViewById(R.id.progress_bar_table));
             mProgressBar.setIndeterminate(true);
+            mHeading = mView.findViewById(R.id.table_heading);
+            mHeading.setVisibility(LinearLayout.GONE);
             mProgressBar.setVisibility(ProgressBar.VISIBLE);
         }
 
-
         @Override
         protected Void doInBackground(Object... params) {
-            String leagueName = (String) params[0];
-            List<Team> teamObjList = (List<Team>) params[1];
-
-            try {
-                Document doc = Jsoup.connect(String.format(Constants.TABLE_WEBLINK, leagueName))
-                        .userAgent(Constants.USER_AGENT).get();
-                Log.d("clear", doc.html());
-                Elements teams = doc.getElementsByClass(Constants.TEAMS_CLASS);
-                //Element image = doc.select("img[class=lr-logo-img lr-standings-logo-img").first();
-                getTeamsData(teamObjList, teams);
-
-                Log.d("clear", doc.html());
-            } catch (IOException e) {
-                e.printStackTrace();
+            while (true) {
+                if (!Global.teamList.isEmpty()) break;
             }
-
-            return null;
-        }
-
-        private void getTeamsData(List<Team> teamList, Elements teams) {
-
-            int numberOfTeams = teams.size();
-
-            for (int index = 0; index < numberOfTeams; index++) {
-                //Object to store team data
-                Team teamObj = new Team();
-
-                /**********HTML parsing to get data************/
-
-                Element team = teams.get(index);
-
-                teamObj.setRank(Integer.parseInt(team.getElementsByClass(Constants.RANK_CLASS).get(0).text()));
-                teamObj.setName(team.getElementsByClass(Constants.TEAM_NAME_CLASS).get(0).text());
-
-                Elements stats = team.getElementsByClass(Constants.STATS_CLASS);
-                teamObj.setMatchesPlayed(Integer.parseInt(stats.get(1).child(0).text()));
-                teamObj.setWins(Integer.parseInt(stats.get(2).child(0).text()));
-                teamObj.setDraws(Integer.parseInt(stats.get(3).child(0).text()));
-                teamObj.setLoss(Integer.parseInt(stats.get(4).child(0).text()));
-                teamObj.setGoalDiff(Integer.parseInt(stats.get(7).child(0).text()));
-                teamObj.setPoints(Integer.parseInt(stats.get(8).child(0).text()));
-
-                /**********HTML parsing to get data************/
-
-                teamList.add(teamObj);
-            }
+          return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            mTeamAdapter.notifyDataSetChanged();
             mProgressBar.setVisibility(ProgressBar.GONE);
+            mHeading.setVisibility(LinearLayout.VISIBLE);
             mClubs.setVisibility(ListView.VISIBLE);
         }
     }
+
+    /***********************************************************************************
+     * Adapter
+     ***********************************************************************************/
 
     private class TeamAdapter extends RecyclerView.Adapter<TeamHolder> {
         private List<Team> mTeams;
@@ -212,13 +164,13 @@ public class TableFragment extends Fragment {
         @Override
         public void onBindViewHolder(TeamHolder holder, int position) {
             holder.getName().setText(mTeams.get(position).getName());
-            holder.getRank().setText(mTeams.get(position).getRank() + "");
-            holder.getMatchesPlayed().setText(mTeams.get(position).getMatchesPlayed() + "");
-            holder.getWins().setText(mTeams.get(position).getWins() + "");
-            holder.getDraws().setText(mTeams.get(position).getDraws() + "");
-            holder.getLoss().setText(mTeams.get(position).getLoss() + "");
-            holder.getGoalDiff().setText(mTeams.get(position).getGoalDiff() + "");
-            holder.getPoints().setText(mTeams.get(position).getPoints() + "");
+            holder.getRank().setText(mTeams.get(position).getRank());
+            holder.getMatchesPlayed().setText(mTeams.get(position).getMatchesPlayed());
+            holder.getWins().setText(mTeams.get(position).getWins());
+            holder.getDraws().setText(mTeams.get(position).getDraws());
+            holder.getLoss().setText(mTeams.get(position).getLoss());
+            holder.getGoalDiff().setText(mTeams.get(position).getGoalDiff());
+            holder.getPoints().setText(mTeams.get(position).getPoints());
         }
 
         @Override
@@ -226,6 +178,10 @@ public class TableFragment extends Fragment {
             return mTeams.size();
         }
     }
+
+    /******************************************************************************************
+     * Holder
+     ******************************************************************************************/
 
     private class TeamHolder extends RecyclerView.ViewHolder {
 

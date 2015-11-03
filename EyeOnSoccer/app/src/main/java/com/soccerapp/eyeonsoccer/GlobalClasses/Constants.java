@@ -31,34 +31,57 @@ public class Constants {
     public static final String KEY_USER_AWARE_OF_DRAWER = "userAwareOfDrawer";
 
     // Fragments
-    public static final int NUMBER_OF_FRAGMENTS = 4;
+    public static final int NUMBER_OF_FRAGMENTS = 3;
     public static final int TABLE_FRAGMENT_INDEX = 0;
     public static final int SCHEDULE_FRAGMENT_INDEX = 1;
     public static final int NEWS_FRAGMENT_INDEX = 2;
     public static final int WATCH_FRAGMENT_INDEX = 3;
 
     // Tabs
-    public static final String[] TAB_NAMES = {"Table", "Schedule", "News", "Watch"};
-    public static final String[] LEAGUE_NAMES = {"Premier League", "Bundesliga",
-            "Serie A", "La Liga", "Ligue 1"};
-    public static final int[] LEAGUE_LOGOS = {R.drawable.premier_league, R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    public static final String[] TAB_NAMES = {"Table", "Fixtures", "News"};
+    public static final String[] LEAGUE_NAMES = {"Barclays Premier League", "German Bundesliga",
+            "Italian Serie A", "Spanish Primera División", "French Ligue 1"};
+
+    public static final int[] LEAGUE_LOGOS = {R.drawable.premier_league, R.drawable.bundesliga,
+            R.drawable.serie_a, R.drawable.la_liga, R.drawable.ligue};
 
     // Toast message upon item in navigation is clicked
     public static final String LEAGUE_SELECTED_MESSAGE = "%s has been selected";
 
-    // Link to get the data (except news) from
-    public static final String BASE_WEBLINK = "https://www.google.com/search?q=";
+    // Link to get the standings data
+    //public static final String TABLE_BASE_WEBLINK = "http://www.skysports.com/";
+
+    // Link to get the schedule data
+    public static final String BASE_WEBLINK = "http://www.espnfc.com.au/";
 
     // Query to get current standings
-    public static final String TABLE_WEBLINK = BASE_WEBLINK + "%s standings";
+    public static final String TABLE_WEBLINK = BASE_WEBLINK + "%s/%s/table";
 
-    // Class names within retrieved html page
-    public static final String TEAMS_CLASS = "sol-tr-hstts";
+    // Query to get league schedule
+    public static final String LEAGUE_SCHEDULE_WEBLINK = BASE_WEBLINK +
+            "%s/%s/fixtures?date=%s";
+
+    // Query to get team schedule
+    public static final String TEAM_SCHEDULE_WEBLINK = BASE_WEBLINK + "football/teams/%s/fixtures";
+
+    public static final String LEAGUE_NEWS_WEBLINK = BASE_WEBLINK + "%s/%s/rss";
+
+    // Html tag of fixtures in retrieved document
+    public static final String TEAM_FIXTURES_CLASS = "score-list";
+
+    public static final String LEAGUE_FIXTURES_CLASS = "score-content";
+
+    public static final String LEAGUE_FIXTURES_GROUP = "score-league";
+
+    // Class names within retrieved html page (for TableFragment)
+    public static final String TEAMS_CLASS = "standing-table__row";
     public static final String RANK_CLASS = "sol-td-rank";
     public static final String TEAM_NAME_CLASS = "_h1c";
     public static final String STATS_CLASS = "vk_bk";
     public static final String TEAM_LOGO_CLASS = "lr-logo-img";
+
+    // Class names within retrieved html page (for ScheduleFragment)
+
 
     // User agent to ensure that everytime same html source is retrieved
     public static final String USER_AGENT =
@@ -67,4 +90,29 @@ public class Constants {
 
     // Base encoding for images retrieved
     public static final String IMAGE_BASE_ENCODING = ";base64,";
+
+    public static final java.lang.String DATE_TIME_DELIMITER = ",";
+    public static final String KEY_ACTION_BAR_TITLE = "actionBarTitle";
+    public static final String[] MONTHS = {"January",
+                                            "February",
+                                            "March",
+                                            "April",
+                                            "May",
+                                            "June",
+                                            "July",
+                                            "August",
+                                            "September",
+                                            "October",
+                                            "November",
+                                            "December"};
+
+    public static final String[] TEAM_CODES = {  "23", // premier league
+                                                 "10", // Bundesliga
+                                                 "12", // Serie A
+                                                 "15", // La liga
+                                                 "9"   // Ligue 1
+                                              };
+
+    public static final String KEY_MONTHS_SPINNER = "monthsSpinner";
+    public static final String KEY_TEAMS_SPINNER = "teamsSpinner";
 }

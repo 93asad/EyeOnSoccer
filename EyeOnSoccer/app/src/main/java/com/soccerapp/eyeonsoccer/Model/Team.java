@@ -1,79 +1,117 @@
 package com.soccerapp.eyeonsoccer.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
- * Created by Asad on 26/10/2015.
+ * Created by Asad on 26/10/2015. Represents team object
  */
-public class Team {
+public class Team implements Serializable {
     private String mName;
-    private int mMatchesPlayed;
-    private int mWins;
-    private int mDraws;
-    private int mLoss;
-    private int mGoalDiff;
-    private int mPoints;
-    private int mRank;
+    private String mMatchesPlayed;
+    private String mWins;
+    private String mDraws;
+    private String mLoss;
+    private String mGoalDiff;
+    private String mPoints;
+    private String mRank;
+    private String mHomeLink;
 
-    public int getRank() {
-        return mRank;
+    /**Constructor to construct team object
+     *
+     * @param name
+     * @param rank
+     * @param matchesPlayed
+     * @param wins
+     * @param draws
+     * @param loss
+     * @param goalDiff
+     * @param points
+     * @param teamHomeLink
+     */
+    public Team(String name, String rank, String matchesPlayed, String wins, String draws, String loss, String goalDiff, String points, String teamHomeLink) {
+        mName = name;
+        mRank = rank;
+        mMatchesPlayed = matchesPlayed;
+        mWins = wins;
+        mDraws = draws;
+        mLoss = loss;
+        mGoalDiff = goalDiff;
+        mPoints = points;
+        mHomeLink = teamHomeLink;
     }
 
-    public void setRank(int mRank) {
-        this.mRank = mRank;
+    /**Get number of matches played
+     *
+     * @return
+     */
+    public String getMatchesPlayed() {
+        return mMatchesPlayed;
     }
 
+    /**Get name
+     *
+     * @return
+     */
     public String getName() {
         return mName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
-    }
-
-    public int getMatchesPlayed() {
-        return mMatchesPlayed;
-    }
-
-    public void setMatchesPlayed(int mMatchesPlayed) {
-        this.mMatchesPlayed = mMatchesPlayed;
-    }
-
-    public int getWins() {
+    /**Get number of wins
+     *
+     * @return
+     */
+    public String getWins() {
         return mWins;
     }
 
-    public void setWins(int mWins) {
-        this.mWins = mWins;
-    }
-
-    public int getDraws() {
-        return mDraws;
-    }
-
-    public void setDraws(int mDraws) {
-        this.mDraws = mDraws;
-    }
-
-    public int getLoss() {
+    /**Get number of losses
+     *
+     * @return
+     */
+    public String getLoss() {
         return mLoss;
     }
 
-    public void setLoss(int mLoss) {
-        this.mLoss = mLoss;
+    /**Get number of draws
+     *
+     * @return
+     */
+    public String getDraws() {
+        return mDraws;
     }
 
-    public int getGoalDiff() {
+    /**Get goal difference
+     *
+     * @return
+     */
+    public String getGoalDiff() {
         return mGoalDiff;
     }
 
-    public void setGoalDiff(int mGoalDiff) {
-        this.mGoalDiff = mGoalDiff;
+    /**Get rank in league table
+     *
+     * @return
+     */
+    public String getRank() {
+        return mRank;
     }
 
-    public int getPoints() {
+    /**Get points
+     *
+     * @return
+     */
+    public String getPoints() {
         return mPoints;
     }
 
-    public void setPoints(int mPoints) {
-        this.mPoints = mPoints;
+    /**Get homepage link
+     *
+     * @return
+     */
+    public String getHomeLink() {
+        return mHomeLink;
     }
 }

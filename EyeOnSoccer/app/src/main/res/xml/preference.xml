@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="Friends Preferences"
+        android:title="Preferences"
         android:key="preferences">
 
     </PreferenceCategory>
@@ -13,13 +13,5 @@
         android:entryValues="@array/date_values"
         android:defaultValue="false">
     </ListPreference>
-
-    <CheckBoxPreference
-        android:key="checkbox"
-        android:title="Can delete friends"
-        android:defaultValue="false"
-        android:id="@+id/checkbox">
-
-    </CheckBoxPreference>
 
 </PreferenceScreen>

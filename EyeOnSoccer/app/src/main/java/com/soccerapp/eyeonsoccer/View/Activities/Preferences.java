@@ -30,12 +30,9 @@ public class Preferences extends PreferenceActivity
     private void loadPreferences() {
         mListPreference = (ListPreference)findPreference(Constants.LIST_PREFERENCE_KEY);
         mListPreference.setOnPreferenceChangeListener(Preferences.this);
-        CheckBoxPreference mCheckBoxPreference = (CheckBoxPreference)findPreference("checkbox");
-        mCheckBoxPreference.setOnPreferenceChangeListener(Preferences.this);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(Preferences.this);
         mListPreference.setSummary(mPreferences.getString(Constants.PREF_DATE_FORMAT, Constants.DEFAULT_PREF_SUMMARY));
-        mCheckBoxPreference.setChecked(mPreferences.getBoolean("checkbox", false));
-    }
+        }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -45,12 +42,6 @@ public class Preferences extends PreferenceActivity
             preference.setSummary(formats[indexValue]);
             mEditor = mPreferences.edit();
             mEditor.putString(Constants.PREF_DATE_FORMAT, formats[indexValue]);
-            mEditor.commit();
-        }
-        else if (preference instanceof CheckBoxPreference) {
-            ((CheckBoxPreference) preference).setChecked((boolean)newValue);
-            mEditor = mPreferences.edit();
-            mEditor.putBoolean("checkbox", (boolean)newValue);
             mEditor.commit();
         }
         return false;
