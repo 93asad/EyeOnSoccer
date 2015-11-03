@@ -73,9 +73,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:textStyle="bold"
                             android:layout_centerVertical="true"
-                            android:text="6" />
+                            android:text="6"
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -98,8 +98,8 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_alignParentLeft="true"
-                            android:layout_marginRight="5dp"
                             android:layout_alignParentTop="true"
+                            android:layout_marginRight="5dp"
                             android:src="@mipmap/ic_launcher" />
 
                         <TextView
@@ -116,10 +116,10 @@
                             android:id="@+id/team1_score"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:text="6" />
+                            android:text="6"
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -142,17 +142,17 @@
                         android:id="@+id/date"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="italic"
                         android:gravity="center_horizontal"
-                        android:text="fri, 10 dec 2015" />
+                        android:text="fri, 10 dec 2015"
+                        android:textStyle="italic" />
 
                     <TextView
                         android:id="@+id/status"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textStyle="bold"
-                        android:text="12:34 ET" />
+                        android:text="12:34 ET"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>

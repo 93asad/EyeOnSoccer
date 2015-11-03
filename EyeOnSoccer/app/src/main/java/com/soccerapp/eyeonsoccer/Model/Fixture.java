@@ -49,6 +49,7 @@ public class Fixture implements Serializable {
 
     /**
      * Get home team name
+     *
      * @return
      */
     public String getHomeTeam() {
@@ -64,7 +65,8 @@ public class Fixture implements Serializable {
         return mAwayTeam;
     }
 
-    /**Get home team logo
+    /**
+     * Get home team logo
      *
      * @return
      */
@@ -72,7 +74,8 @@ public class Fixture implements Serializable {
         return mHomeTeamLogo;
     }
 
-    /**Get away team logo
+    /**
+     * Get away team logo
      *
      * @return
      */
@@ -80,7 +83,8 @@ public class Fixture implements Serializable {
         return mAwayTeamLogo;
     }
 
-    /**Get home team score
+    /**
+     * Get home team score
      *
      * @return
      */
@@ -88,7 +92,8 @@ public class Fixture implements Serializable {
         return mHomeTeamScore;
     }
 
-    /**Get away team score
+    /**
+     * Get away team score
      *
      * @return
      */
@@ -96,7 +101,8 @@ public class Fixture implements Serializable {
         return mAwayTeamScore;
     }
 
-    /**Get date of fixture
+    /**
+     * Get date of fixture
      *
      * @return
      */
@@ -104,7 +110,8 @@ public class Fixture implements Serializable {
         return mDate;
     }
 
-    /**Get status. Can be upcoming or past
+    /**
+     * Get status. Can be upcoming or past
      *
      * @return
      */
@@ -112,7 +119,8 @@ public class Fixture implements Serializable {
         return mStatus;
     }
 
-    /**Get time of fixture
+    /**
+     * Get time of fixture
      *
      * @return
      */
@@ -120,7 +128,8 @@ public class Fixture implements Serializable {
         return mTime;
     }
 
-    /**Get separator. Can be 'v' or vertical line
+    /**
+     * Get separator. Can be 'v' or vertical line
      *
      * @return
      */

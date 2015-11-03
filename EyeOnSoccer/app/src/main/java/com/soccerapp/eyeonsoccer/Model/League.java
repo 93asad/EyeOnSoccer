@@ -7,7 +7,8 @@ public class League {
     private int mLogoId; //Id of logo
     private String mName;
 
-    /**Get logo id
+    /**
+     * Get logo id
      *
      * @return
      */
@@ -15,7 +16,8 @@ public class League {
         return mLogoId;
     }
 
-    /**Set logo id
+    /**
+     * Set logo id
      *
      * @param logoId
      */
@@ -23,7 +25,8 @@ public class League {
         this.mLogoId = logoId;
     }
 
-    /**Get name
+    /**
+     * Get name
      *
      * @return
      */
@@ -31,7 +34,8 @@ public class League {
         return mName;
     }
 
-    /**Set name
+    /**
+     * Set name
      *
      * @param name
      */

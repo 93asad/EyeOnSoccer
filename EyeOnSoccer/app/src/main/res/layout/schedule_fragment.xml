@@ -2,19 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="No data available for this period"
-    android:layout_centerInParent="true"
-    android:visibility="gone"
-    android:id="@+id/no_fixture_data"/>
+
+    <TextView
+        android:id="@+id/no_fixture_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No data available for this period"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/spinners"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:id="@+id/spinners">
+        android:layout_marginTop="18dp">
 
         <Spinner
             android:id="@+id/teams_spinner"
@@ -25,9 +26,9 @@
         <Spinner
             android:id="@+id/months_spinner"
             android:layout_width="wrap_content"
-            android:layout_marginRight="15dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/teams_spinner"></Spinner>
     </LinearLayout>

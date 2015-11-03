@@ -42,17 +42,32 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**Represents main activity that hosts all fragments
- *
+/**
+ * Represents main activity that hosts all fragments
  */
 public class LandingPage extends AppCompatActivity {
 
+    private static final String HREF_ATTR = "href";
+    private static final String CLEAR_MESSAGE = "teamlist cleared";
+    private static final String FALSE = "false";
+    private static final String PREMIER_LEAGUE = "Barclays Premier League";
+    private static final String LOG_KEY = "test";
     private ViewPager mViewPager;
     private FragmentManager mFragmentManager;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private SlidingTabLayout mTabs; //Layout to manage tabs
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+
+    private final String FIRST_ENTRY = "All";
+    private final int ZERO_INDEX = 0;
+    private final int INDEX_ONE = 1;
+    private final int INDEX_THREE = 3;
+    private final int INDEX_FOUR = 4;
+    private final int INDEX_FIVE = 5;
+    private final int INDEX_SIX = 6;
+    private final int INDEX_TWENTY_TWO = 22;
+    private final int INDEX_TWENTY_THREE = 23;
 
     // To manage broadcast messages
     private LocalBroadcastManager mLocalBroadcastManager;
@@ -61,20 +76,22 @@ public class LandingPage extends AppCompatActivity {
     private boolean mUserAwareOfDrawer;
     private boolean mStartingFirstTime;
 
-    /**Cteates instance of this landing page
+    /**
+     * Cteates instance of this landing page
      *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) getSupportActionBar().setTitle(savedInstanceState.getString(Constants.KEY_ACTION_BAR_TITLE));
-        else getSupportActionBar().setTitle("Barclays Premier League");
+        if (savedInstanceState != null)
+            getSupportActionBar().setTitle(savedInstanceState.getString(Constants.KEY_ACTION_BAR_TITLE));
+        else getSupportActionBar().setTitle(PREMIER_LEAGUE);
 
         setContentView(R.layout.landing_page);
 
         //Set action bar
-        Toolbar actionBarToolbar = (Toolbar)findViewById(R.id.action_bar);
+        Toolbar actionBarToolbar = (Toolbar) findViewById(R.id.action_bar);
         actionBarToolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
         actionBarToolbar.setTitleTextColor(Color.WHITE);
 
@@ -108,16 +125,16 @@ public class LandingPage extends AppCompatActivity {
         mTabs.setDistributeEvenly(true);
     }
 
-    /**Sets home button to options button
-     *
+    /**
+     * Sets home button to options button
      */
     private void setHomeButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    /**On resume, fetchs table data
-     *
+    /**
+     * On resume, fetchs table data
      */
     @Override
     protected void onResume() {
@@ -126,7 +143,8 @@ public class LandingPage extends AppCompatActivity {
         new TableDataAsync().execute(getLeagueIndex(getSupportActionBar().getTitle().toString()));
     }
 
-    /**Save objects to bundle
+    /**
+     * Save objects to bundle
      *
      * @param outState
      */
@@ -137,7 +155,8 @@ public class LandingPage extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    /**Create options menu
+    /**
+     * Create options menu
      *
      * @param menu
      * @return
@@ -148,7 +167,8 @@ public class LandingPage extends AppCompatActivity {
         return true;
     }
 
-    /**Setup oprions item select
+    /**
+     * Setup oprions item select
      *
      * @param item
      * @return
@@ -175,7 +195,8 @@ public class LandingPage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**Setup navigation drawer
+    /**
+     * Setup navigation drawer
      *
      * @param savedInstanceState
      */
@@ -183,7 +204,7 @@ public class LandingPage extends AppCompatActivity {
 
         // Check if user is running app for very first time
         mUserAwareOfDrawer = Boolean.valueOf(readFromPreferences(getApplicationContext(),
-                Constants.KEY_USER_AWARE_OF_DRAWER, "false"));
+                Constants.KEY_USER_AWARE_OF_DRAWER, FALSE));
 
         // Check if activity is being created first time
         mStartingFirstTime = savedInstanceState != null;
@@ -209,8 +230,8 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
-    /**Setup drawer toggle
-     *
+    /**
+     * Setup drawer toggle
      */
     private void setupDrawerToggle() {
         mActionBarDrawerToggle = new ActionBarDrawerToggle(LandingPage.this, mDrawerLayout,
@@ -242,13 +263,12 @@ public class LandingPage extends AppCompatActivity {
 
                 // If same league that is displayed, is tapped, don't do anything
                 if (currentActionBarTitle.equals(Global.selectedLeagueName)) return;
-                else
-                {
+                else {
                     getSupportActionBar().setTitle(Global.selectedLeagueName);
 
                     //Reset global team list
                     Global.teamList.clear();
-                    Log.d("test", "teamlist cleared");
+                    Log.d(LOG_KEY, CLEAR_MESSAGE);
                     Global.teamNameList.clear();
                     Global.sortedTeamNameList.clear();
 
@@ -263,7 +283,8 @@ public class LandingPage extends AppCompatActivity {
         };
     }
 
-    /**Given the league name, return index position of it in list of leagues
+    /**
+     * Given the league name, return index position of it in list of leagues
      *
      * @param currentActionBarTitle
      * @return
@@ -272,7 +293,8 @@ public class LandingPage extends AppCompatActivity {
         return Arrays.asList(Constants.LEAGUE_NAMES).indexOf(currentActionBarTitle);
     }
 
-    /**Saves information about whether app is being run for first time
+    /**
+     * Saves information about whether app is being run for first time
      *
      * @param context
      * @param preferenceKey
@@ -287,7 +309,8 @@ public class LandingPage extends AppCompatActivity {
         editor.apply();
     }
 
-    /**Reads information about whether app is being run for first time
+    /**
+     * Reads information about whether app is being run for first time
      *
      * @param context
      * @param preferenceKey
@@ -305,12 +328,13 @@ public class LandingPage extends AppCompatActivity {
      * Pager Adapter
      *****************************************************************************************/
 
-    /**Adapter to manage tabs
-     *
+    /**
+     * Adapter to manage tabs
      */
     private class FragmentsPagerAdapter extends FragmentStatePagerAdapter {
 
-        /**Constructor
+        /**
+         * Constructor
          *
          * @param fm
          */
@@ -318,7 +342,8 @@ public class LandingPage extends AppCompatActivity {
             super(fm);
         }
 
-        /**Given the tab position, return fragment at that position
+        /**
+         * Given the tab position, return fragment at that position
          *
          * @param position
          * @return
@@ -336,43 +361,67 @@ public class LandingPage extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * Get number of tabs
+         *
+         * @return
+         */
         @Override
         public int getCount() {
             return Constants.NUMBER_OF_FRAGMENTS;
         }
 
+        /**
+         * Given the position of tab, get tab name
+         *
+         * @param position
+         * @return
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             return Constants.TAB_NAMES[position];
         }
     }
 
+    /********************************************************************************
+     * Async task
+     ********************************************************************************/
+
+    /**
+     * Async task to get table data
+     */
     private class TableDataAsync extends AsyncTask<Object, Void, Void> {
 
-
-
+        /**
+         * On pre execute
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
 
+        /**
+         * Get data in background from web
+         *
+         * @param params
+         * @return
+         */
         @Override
         protected Void doInBackground(Object... params) {
-            int itemPosition = (int) params[0];
+            int itemPosition = (int) params[ZERO_INDEX]; //Position of league in pre-defined list
 
             try {
-                String s = String.format(getTableLink(itemPosition));
                 Document doc = Jsoup.connect(getTableLink(itemPosition))
                         .userAgent(Constants.USER_AGENT).get();
                 Log.d("clear", doc.html());
 
-                Elements teams = doc.select("table").first().children().get(1).children().select("tr");
-                //Element image = doc.select("img[class=lr-logo-img lr-standings-logo-img").first();
+                // Select tables that contains team rows
+                Elements teams = doc.select("table").first().children().get(INDEX_ONE).children().select("tr");
+
                 getTeamsData(teams);
 
                 Log.d("clear", doc.html());
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -381,36 +430,45 @@ public class LandingPage extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * Given the postion, return league table link
+         *
+         * @param itemPosition
+         * @return
+         */
         private String getTableLink(int itemPosition) {
             return String.format(Constants.TABLE_WEBLINK,
-                    Constants.LEAGUE_NAMES[itemPosition].replaceAll(" ", "-").toLowerCase(), Constants.TEAM_CODES[itemPosition] );
+                    Constants.LEAGUE_NAMES[itemPosition].replaceAll(" ", "-").toLowerCase(), Constants.TEAM_CODES[itemPosition]);
         }
 
+        /**
+         * Extracts data from retrieved html document
+         *
+         * @param teams
+         */
         private void getTeamsData(Elements teams) {
 
             int numberOfTeams = teams.size();
-            List<String> teamNames = new ArrayList<String>();
-            List<Team> teamList = new ArrayList<Team>();
+            List<String> teamNames = new ArrayList<String>(); //Stores team names only
+            List<Team> teamList = new ArrayList<Team>(); //Stores team objects
 
-            // 1 to ignore table header
-            for (int index = 1; index < numberOfTeams; index++) {
+            // INDEX_ONE to ignore table header
+            for (int index = INDEX_ONE; index < numberOfTeams; index++) {
 
                 /**********HTML parsing to get data************/
 
                 Element team = teams.get(index);
 
-                String rank = team.child(0).text();
-                String teamName = team.child(1).text();
-                String teamHomeLink = team.child(1).child(0).attr("href");
+                String rank = team.child(ZERO_INDEX).text();
+                String teamName = team.child(INDEX_ONE).text();
+                String teamHomeLink = team.child(INDEX_ONE).child(ZERO_INDEX).attr(HREF_ATTR);
 
-
-                //Elements stats = team.getElementsByClass(Constants.STATS_CLASS);
-                String matchesPlayed = team.child(3).text();
-                String wins = team.child(4).text();
-                String draws = team.child(5).text();
-                String loss = team.child(6).text();
-                String goalDiff = team.child(22).text();
-                String points = team.child(23).text();
+                String matchesPlayed = team.child(INDEX_THREE).text();
+                String wins = team.child(INDEX_FOUR).text();
+                String draws = team.child(INDEX_FIVE).text();
+                String loss = team.child(INDEX_SIX).text();
+                String goalDiff = team.child(INDEX_TWENTY_TWO).text();
+                String points = team.child(INDEX_TWENTY_THREE).text();
 
                 /**********HTML parsing to get data************/
 
@@ -418,13 +476,18 @@ public class LandingPage extends AppCompatActivity {
                 teamNames.add(teamName);
             }
 
-            Global.teamNameList.addAll(teamNames);
+            Global.teamNameList.addAll(teamNames); // Populate global team names list
             Global.sortedTeamNameList.addAll(teamNames);
             Collections.sort(Global.sortedTeamNameList);
-            Global.sortedTeamNameList.add(0, "All");
-            Global.teamList.addAll(teamList);
+            Global.sortedTeamNameList.add(ZERO_INDEX, FIRST_ENTRY);
+            Global.teamList.addAll(teamList); // Populate global teat list of team objects
         }
 
+        /**
+         * On post execute
+         *
+         * @param aVoid
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);

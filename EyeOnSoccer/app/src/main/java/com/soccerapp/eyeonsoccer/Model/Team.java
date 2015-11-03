@@ -19,7 +19,8 @@ public class Team implements Serializable {
     private String mRank;
     private String mHomeLink;
 
-    /**Constructor to construct team object
+    /**
+     * Constructor to construct team object
      *
      * @param name
      * @param rank
@@ -43,7 +44,8 @@ public class Team implements Serializable {
         mHomeLink = teamHomeLink;
     }
 
-    /**Get number of matches played
+    /**
+     * Get number of matches played
      *
      * @return
      */
@@ -51,7 +53,8 @@ public class Team implements Serializable {
         return mMatchesPlayed;
     }
 
-    /**Get name
+    /**
+     * Get name
      *
      * @return
      */
@@ -59,7 +62,8 @@ public class Team implements Serializable {
         return mName;
     }
 
-    /**Get number of wins
+    /**
+     * Get number of wins
      *
      * @return
      */
@@ -67,7 +71,8 @@ public class Team implements Serializable {
         return mWins;
     }
 
-    /**Get number of losses
+    /**
+     * Get number of losses
      *
      * @return
      */
@@ -75,7 +80,8 @@ public class Team implements Serializable {
         return mLoss;
     }
 
-    /**Get number of draws
+    /**
+     * Get number of draws
      *
      * @return
      */
@@ -83,7 +89,8 @@ public class Team implements Serializable {
         return mDraws;
     }
 
-    /**Get goal difference
+    /**
+     * Get goal difference
      *
      * @return
      */
@@ -91,7 +98,8 @@ public class Team implements Serializable {
         return mGoalDiff;
     }
 
-    /**Get rank in league table
+    /**
+     * Get rank in league table
      *
      * @return
      */
@@ -99,7 +107,8 @@ public class Team implements Serializable {
         return mRank;
     }
 
-    /**Get points
+    /**
+     * Get points
      *
      * @return
      */
@@ -107,7 +116,8 @@ public class Team implements Serializable {
         return mPoints;
     }
 
-    /**Get homepage link
+    /**
+     * Get homepage link
      *
      * @return
      */

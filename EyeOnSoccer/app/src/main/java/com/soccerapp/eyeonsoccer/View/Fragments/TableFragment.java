@@ -28,19 +28,21 @@ import java.util.List;
 
 
 /**
- * Created by Asad on 17/10/2015.
+ * Created by Asad on 17/10/2015. Represents table fragment
  */
 public class TableFragment extends Fragment {
 
     private RecyclerView mClubs;
     private BroadcastReceiver mReceiver;
     private LocalBroadcastManager mLocalBroadcastManager;
-    //private ArrayList<Team> mTeams;
     private TeamAdapter mTeamAdapter;
     private View mTableView;
 
-    private final String KEY_TEAMS = "teams";
-
+    /**
+     * On create, et broadcast receiver
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +50,16 @@ public class TableFragment extends Fragment {
         setupBroadcastReceiver();
     }
 
+    /**
+     * Set broadcast receiver
+     */
     private void setupBroadcastReceiver() {
         mReceiver = new BroadcastReceiver() {
+            /**
+             * On receive get new table data from web
+             * @param context
+             * @param intent
+             */
             @Override
             public void onReceive(Context context, Intent intent) {
                 new TableDataAsync(mTableView).execute();
@@ -61,10 +71,14 @@ public class TableFragment extends Fragment {
         mLocalBroadcastManager.registerReceiver(mReceiver, Constants.INTENT_FILTER);
     }
 
-    private String getActionBarTitle(){
-        return ((AppCompatActivity)getActivity()).getSupportActionBar().getTitle().toString();
-    }
-
+    /**
+     * Set table view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mTableView = inflater.inflate(R.layout.table_fragment, container, false);
@@ -79,13 +93,9 @@ public class TableFragment extends Fragment {
         return mTableView;
     }
 
-    private void fetchData() {
-        String leagueName = ((AppCompatActivity) getActivity())
-                .getSupportActionBar().getTitle().toString();
-
-
-    }
-
+    /**
+     * Unregister broadcast receiver
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -97,18 +107,28 @@ public class TableFragment extends Fragment {
      * AsyncTask
      ********************************************************************************/
 
+    /**
+     * Async task to to wait for global team list to populate
+     */
     private class TableDataAsync extends AsyncTask<Object, Void, Void> {
 
-        private final String SOURCE_ATTRIBUTE = "src";
         private ProgressBar mProgressBar;
 
         private View mView;
         private View mHeading;
 
+        /**
+         * Constructor
+         *
+         * @param view
+         */
         public TableDataAsync(View view) {
             this.mView = view;
         }
 
+        /**
+         * Show progress bar and hide list
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -119,14 +139,25 @@ public class TableFragment extends Fragment {
             mProgressBar.setVisibility(ProgressBar.VISIBLE);
         }
 
+        /**
+         * Wait fot global team list to populate
+         *
+         * @param params
+         * @return
+         */
         @Override
         protected Void doInBackground(Object... params) {
             while (true) {
                 if (!Global.teamList.isEmpty()) break;
             }
-          return null;
+            return null;
         }
 
+        /**
+         * Show list and hide progress bar and update teams spinner
+         *
+         * @param aVoid
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -141,6 +172,9 @@ public class TableFragment extends Fragment {
      * Adapter
      ***********************************************************************************/
 
+    /**
+     * Adapter to manage team data
+     */
     private class TeamAdapter extends RecyclerView.Adapter<TeamHolder> {
         private List<Team> mTeams;
         private Context mContext;
@@ -148,12 +182,25 @@ public class TableFragment extends Fragment {
         private View mTeamRow;
         private TeamHolder mTeamHolder;
 
+        /**
+         * Constructor
+         *
+         * @param context
+         * @param teams
+         */
         public TeamAdapter(Context context, List<Team> teams) {
             this.mTeams = teams;
             this.mContext = context;
             this.mLayoutInflater = LayoutInflater.from(context);
         }
 
+        /**
+         * Inflate team row
+         *
+         * @param parent
+         * @param viewType
+         * @return
+         */
         @Override
         public TeamHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             mTeamRow = mLayoutInflater.inflate(R.layout.team_row, parent, false);
@@ -161,6 +208,12 @@ public class TableFragment extends Fragment {
             return mTeamHolder;
         }
 
+        /**
+         * Bind team data to holder fields
+         *
+         * @param holder
+         * @param position
+         */
         @Override
         public void onBindViewHolder(TeamHolder holder, int position) {
             holder.getName().setText(mTeams.get(position).getName());
@@ -173,6 +226,11 @@ public class TableFragment extends Fragment {
             holder.getPoints().setText(mTeams.get(position).getPoints());
         }
 
+        /**
+         * Get number of teams
+         *
+         * @return
+         */
         @Override
         public int getItemCount() {
             return mTeams.size();
@@ -183,6 +241,9 @@ public class TableFragment extends Fragment {
      * Holder
      ******************************************************************************************/
 
+    /**
+     * Holder to store team data
+     */
     private class TeamHolder extends RecyclerView.ViewHolder {
 
         private TextView mName;
@@ -194,6 +255,11 @@ public class TableFragment extends Fragment {
         private TextView mPoints;
         private TextView mRank;
 
+        /**
+         * Constructor
+         *
+         * @param itemView
+         */
         public TeamHolder(View itemView) {
             super(itemView);
 
@@ -219,56 +285,29 @@ public class TableFragment extends Fragment {
             return mMatchesPlayed;
         }
 
-        public void setMatchesPlayed(TextView mMatchesPlayed) {
-            this.mMatchesPlayed = mMatchesPlayed;
-        }
-
         public TextView getWins() {
             return mWins;
-        }
-
-        public void setWins(TextView mWins) {
-            this.mWins = mWins;
         }
 
         public TextView getDraws() {
             return mDraws;
         }
 
-        public void setDraws(TextView mDraws) {
-            this.mDraws = mDraws;
-        }
-
         public TextView getLoss() {
             return mLoss;
-        }
-
-        public void setLoss(TextView mLoss) {
-            this.mLoss = mLoss;
         }
 
         public TextView getGoalDiff() {
             return mGoalDiff;
         }
 
-        public void setGoalDiff(TextView mGoalDiff) {
-            this.mGoalDiff = mGoalDiff;
-        }
-
         public TextView getPoints() {
             return mPoints;
-        }
-
-        public void setPoints(TextView mPoints) {
-            this.mPoints = mPoints;
         }
 
         public TextView getRank() {
             return mRank;
         }
 
-        public void setRank(TextView mRank) {
-            this.mRank = mRank;
-        }
     }
 }

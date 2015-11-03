@@ -7,13 +7,14 @@ import java.io.Serializable;
 /**
  * Created by Asad on 1/11/2015. Represents news object
  */
-public class News implements Serializable{
+public class News implements Serializable {
     private String mTitle;
     private String mImageLink;
     private String mDate;
     private String mLink;
 
-    /**Constructor to construct news object
+    /**
+     * Constructor to construct news object
      *
      * @param title
      * @param imageLink
@@ -27,7 +28,8 @@ public class News implements Serializable{
         this.mLink = link;
     }
 
-    /**Get link
+    /**
+     * Get link
      *
      * @return
      */
@@ -35,7 +37,8 @@ public class News implements Serializable{
         return mLink;
     }
 
-    /**Get title
+    /**
+     * Get title
      *
      * @return
      */
@@ -43,7 +46,8 @@ public class News implements Serializable{
         return mTitle;
     }
 
-    /**Set title
+    /**
+     * Set title
      *
      * @param title
      */
@@ -51,7 +55,8 @@ public class News implements Serializable{
         this.mTitle = title;
     }
 
-    /**Get image link
+    /**
+     * Get image link
      *
      * @return
      */
@@ -59,7 +64,8 @@ public class News implements Serializable{
         return mImageLink;
     }
 
-    /**Get date
+    /**
+     * Get date
      *
      * @return
      */

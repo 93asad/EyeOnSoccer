@@ -4,18 +4,19 @@
     android:layout_height="match_parent"
     android:background="#EEE"
     tools:context="com.soccerapp.eyeonsoccer.View.Fragments.NavigationDrawerFragment">
+
     <ImageView
+        android:id="@+id/app_image"
         android:layout_width="fill_parent"
         android:layout_height="280dp"
-        android:id="@+id/app_image"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/logo"
-        android:layout_alignParentLeft="true"/>
+        android:src="@drawable/logo" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_image"/>
+        android:layout_below="@+id/app_image" />
 
 </RelativeLayout>
