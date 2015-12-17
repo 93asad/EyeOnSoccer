@@ -1,3 +1,4 @@
+#EyeOnSoccer
 This is an android project entirely written in java (android app can be written in C# too. See my HELPS project). It is a football app that currently featues five major leagues: Premier league, spanish league, Italian league and bundeslia. App has following features:
 - See current league table
 - See upcomming schedule or previous results for entire league/specific team
